@@ -11,6 +11,8 @@ ALTO XML Highlighting Application
 * JPEG & XML filename should be same
 * Coordinated handled "mm10"
 * Portions handled: Word, Line, Block, Image, Margin, Printspace
+* * Example
+<p><img src="https://github.com/Rajasekaran85/ALTO-XML-highlighting-Application/blob/main/example.png"/></p>
 
 ## Getting Started
 
