@@ -73,8 +73,8 @@ else:
     os.mkdir(space)
 
 default_font = ImageFont.load_default()
-base_font_size = 15
-font_color = (4, 76, 207)
+base_font_size = 12
+font_color = (242, 247, 189)
 desired_font_size = int(base_font_size * 10)
 font = ImageFont.truetype("arial.ttf", desired_font_size)
 
@@ -176,6 +176,7 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 	dpi_val = round(float(sp))
 	draw = ImageDraw.Draw(image, "RGBA")
 	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}TextBlock"):
+		art_id = str(coord.get('ID'))
 		x = int(coord.get('HPOS'))
 		a = ((x/10)*dpi_val/25.4)
 		y = int(coord.get('VPOS'))
@@ -185,10 +186,15 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 		height = int(coord.get('HEIGHT'))
 		height1 = ((height/10)*dpi_val/25.4)
 		fill_color = (200, 100, 0, 127)
-		outline_width = 0
-		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
+		border_color = (250, 1, 42, 127)
+		text_x = a
+		text_y = b
+		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, outline=border_color, width=5)
+		draw.text((text_x, text_y), art_id, fill=font_color, font=font)
 	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}ComposedBlock"):
-		image_type = str(coord.get('TYPE'))
+		image_type1 = str(coord.get('ID'))
+		image_type2 = str(coord.get('TYPE'))
+		image_type = image_type1 + " " + image_type2
 		x1 = int(coord.get('HPOS'))
 		a1 = ((x1/10)*dpi_val/25.4)
 		y1 = int(coord.get('VPOS'))
@@ -198,10 +204,10 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 		height = int(coord.get('HEIGHT'))
 		height1 = ((height/10)*dpi_val/25.4)
 		fill_color = (8, 186, 58, 70)
-		outline_width = 0
+		border_color = (9, 87, 166, 127)
 		text_x = a1
 		text_y = b1
-		draw.rectangle([a1, b1, a1 + width1, b1 + height1], fill=fill_color, width=outline_width)
+		draw.rectangle([a1, b1, a1 + width1, b1 + height1], fill=fill_color, outline=border_color, width=5)
 		draw.text((text_x, text_y), image_type, fill=font_color, font=font)
 	output = block + "TextBlock" + "_" + splitname + "_" + "light" + ".jpg"
 	image.save(output, dpi=(dpi_val,dpi_val), quality=90)
@@ -224,20 +230,22 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 	dpi_val = round(float(sp))
 	draw = ImageDraw.Draw(image, "RGBA")
 	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}ComposedBlock"):
-		image_type = str(coord.get('TYPE'))
-		x = int(coord.get('HPOS'))
-		a = ((x/10)*dpi_val/25.4)
-		y = int(coord.get('VPOS'))
-		b = ((y/10)*dpi_val/25.4)
+		image_type1 = str(coord.get('ID'))
+		image_type2 = str(coord.get('TYPE'))
+		image_type = image_type1 + " " + image_type2
+		x1 = int(coord.get('HPOS'))
+		a1 = ((x1/10)*dpi_val/25.4)
+		y1 = int(coord.get('VPOS'))
+		b1 = ((y1/10)*dpi_val/25.4)
 		width = int(coord.get('WIDTH'))
 		width1 = ((width/10)*dpi_val/25.4)
 		height = int(coord.get('HEIGHT'))
 		height1 = ((height/10)*dpi_val/25.4)
-		fill_color = (200, 100, 0, 127)
-		outline_width = 0
-		text_x = a
-		text_y = b
-		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
+		fill_color = (8, 186, 58, 70)
+		border_color = (9, 87, 166, 127)
+		text_x = a1
+		text_y = b1
+		draw.rectangle([a1, b1, a1 + width1, b1 + height1], fill=fill_color, outline=border_color, width=5)
 		draw.text((text_x, text_y), image_type, fill=font_color, font=font)
 	output = imagedir + "Image" + "_" + splitname + "_" + "light" + ".jpg"
 	image.save(output, dpi=(dpi_val,dpi_val), quality=90)
