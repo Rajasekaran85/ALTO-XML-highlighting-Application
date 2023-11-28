@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 import os
 import re
 import glob
@@ -18,6 +18,7 @@ block_directory = "Block"
 image_directory = "Image"
 margin_directory = "Margin"
 printspace_directory = "Printspace"
+space_directory = "space"
 
 out = filepath + "/" + output_directory + "/"
 word = filepath + "/" + output_directory + "/" + "/" + word_directory + "/"
@@ -26,6 +27,7 @@ block = filepath + "/" + output_directory + "/" + "/" + block_directory + "/"
 imagedir = filepath + "/" + output_directory + "/" + "/" + image_directory + "/"
 margin = filepath + "/" + output_directory + "/" + "/" + margin_directory + "/"
 printspace = filepath + "/" + output_directory + "/" + "/" + printspace_directory + "/"
+space = filepath + "/" + output_directory + "/" + "/" + space_directory + "/"
 
 print(" \n Highlighting Files: ")
 print(" \n ************************************* ")
@@ -64,6 +66,18 @@ if os.path.exists(printspace):
     pass
 else:
     os.mkdir(printspace)
+
+if os.path.exists(space):
+    pass
+else:
+    os.mkdir(space)
+
+default_font = ImageFont.load_default()
+base_font_size = 15
+font_color = (4, 76, 207)
+desired_font_size = int(base_font_size * 10)
+font = ImageFont.truetype("arial.ttf", desired_font_size)
+
 
 for fname in glob.glob(filepath + "/" + "*.jpg"):
 	name = os.path.basename(fname)
@@ -146,7 +160,7 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 
 
 
-# Highlighting Block Coordinates
+# Highlighting Block Coordinates & Image Type
 for fname in glob.glob(filepath + "/" + "*.xml"):
 	name = os.path.basename(fname)
 	splitname = os.path.splitext(name)[0]
@@ -173,6 +187,22 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 		fill_color = (200, 100, 0, 127)
 		outline_width = 0
 		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
+	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}ComposedBlock"):
+		image_type = str(coord.get('TYPE'))
+		x1 = int(coord.get('HPOS'))
+		a1 = ((x1/10)*dpi_val/25.4)
+		y1 = int(coord.get('VPOS'))
+		b1 = ((y1/10)*dpi_val/25.4)
+		width = int(coord.get('WIDTH'))
+		width1 = ((width/10)*dpi_val/25.4)
+		height = int(coord.get('HEIGHT'))
+		height1 = ((height/10)*dpi_val/25.4)
+		fill_color = (8, 186, 58, 70)
+		outline_width = 0
+		text_x = a1
+		text_y = b1
+		draw.rectangle([a1, b1, a1 + width1, b1 + height1], fill=fill_color, width=outline_width)
+		draw.text((text_x, text_y), image_type, fill=font_color, font=font)
 	output = block + "TextBlock" + "_" + splitname + "_" + "light" + ".jpg"
 	image.save(output, dpi=(dpi_val,dpi_val), quality=90)
 	image.close()
@@ -194,6 +224,7 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 	dpi_val = round(float(sp))
 	draw = ImageDraw.Draw(image, "RGBA")
 	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}ComposedBlock"):
+		image_type = str(coord.get('TYPE'))
 		x = int(coord.get('HPOS'))
 		a = ((x/10)*dpi_val/25.4)
 		y = int(coord.get('VPOS'))
@@ -204,7 +235,10 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 		height1 = ((height/10)*dpi_val/25.4)
 		fill_color = (200, 100, 0, 127)
 		outline_width = 0
+		text_x = a
+		text_y = b
 		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
+		draw.text((text_x, text_y), image_type, fill=font_color, font=font)
 	output = imagedir + "Image" + "_" + splitname + "_" + "light" + ".jpg"
 	image.save(output, dpi=(dpi_val,dpi_val), quality=90)
 	image.close()
@@ -306,6 +340,39 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 		outline_width = 0
 		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
 	output = printspace + "PrintSpace" + "_" + splitname + "_" + "light" + ".jpg"
+	image.save(output, dpi=(dpi_val,dpi_val), quality=90)
+	image.close()
+
+
+
+# Highlighting Space Coordinates
+for fname in glob.glob(filepath + "/" + "*.xml"):
+	name = os.path.basename(fname)
+	splitname = os.path.splitext(name)[0]
+	filename = str("\"")+ fname + str("\"")
+	print(" Space:" + filename)
+	tree = ET.parse(filepath + "/" + name)
+	root = tree.getroot()
+	Image.MAX_IMAGE_PIXELS = 933120000
+	image = Image.open(filepath + "/" + splitname + ".jpg")
+	img_dpi = str(image.info['dpi'])
+	patn = re.sub(r"[\(\)]", "", img_dpi)
+	sp = patn.split(",")[0]
+	dpi_val = round(float(sp))
+	draw = ImageDraw.Draw(image, "RGBA")
+	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}SP"):
+		x = int(coord.get('HPOS'))
+		a = ((x/10)*dpi_val/25.4)
+		y = int(coord.get('VPOS'))
+		b = ((y/10)*dpi_val/25.4)
+		width = int(coord.get('WIDTH'))
+		width1 = ((width/10)*dpi_val/25.4)
+		height = int(100)
+		height1 = ((height/10)*dpi_val/25.4)
+		fill_color = (200, 100, 0, 127)
+		outline_width = 0
+		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
+	output = space + "Space" + "_" + splitname + "_" + "light" + ".jpg"
 	image.save(output, dpi=(dpi_val,dpi_val), quality=90)
 	image.close()
 
