@@ -4,7 +4,7 @@ ALTO XML Highlighting Application
 
 ## Description
 
-* ALTO XML coordinates highlighting application
+* ALTO XML coordinates highlighting application for validating the coordinates
 * We can ensure the coordinates captured in the XML is correct or not
 * Input files should be JPEG, RGB color mode
 * JPEG & XML files should be placed in the same directory
