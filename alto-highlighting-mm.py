@@ -79,6 +79,7 @@ desired_font_size = int(base_font_size * 10)
 font = ImageFont.truetype("arial.ttf", desired_font_size)
 
 
+# Converting grayscale image to color mode if any image is present
 for fname in glob.glob(filepath + "/" + "*.jpg"):
 	name = os.path.basename(fname)
 	splitname = os.path.splitext(name)[0]
@@ -304,6 +305,18 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 		outline_width = 0
 		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
 	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}BottomMargin"):
+		x = int(coord.get('HPOS'))
+		a = ((x/10)*dpi_val/25.4)
+		y = int(coord.get('VPOS'))
+		b = ((y/10)*dpi_val/25.4)
+		width = int(coord.get('WIDTH'))
+		width1 = ((width/10)*dpi_val/25.4)
+		height = int(coord.get('HEIGHT'))
+		height1 = ((height/10)*dpi_val/25.4)
+		fill_color = (200, 100, 0, 127)
+		outline_width = 0
+		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
+	for coord in root.iter(f"{{http://www.loc.gov/standards/alto/ns-v3#}}PrintSpace"):
 		x = int(coord.get('HPOS'))
 		a = ((x/10)*dpi_val/25.4)
 		y = int(coord.get('VPOS'))
