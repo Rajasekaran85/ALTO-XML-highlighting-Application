@@ -9,7 +9,7 @@ ALTO XML Highlighting Application
 * Input files should be JPEG, RGB color mode
 * JPEG & XML files should be placed in the same directory 
 * JPEG & XML filename should be same
-* Coordinated handled "mm10", "inch1200", "pixel"
+* Coordinated handled "mm10", "inch1200", "pixel" 
 * Portions handled: Word, Line, Block, Image, Margin, Printspace
 * * Example
 <p><img src="https://github.com/Rajasekaran85/ALTO-XML-highlighting-Application/blob/main/example.png"/></p>
