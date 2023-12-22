@@ -16,7 +16,7 @@ ALTO XML Highlighting Application
 
 ## Getting Started
 
-### Dependencies
+### Dependencies 
 
 * Windows 7
 
