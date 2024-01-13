@@ -325,7 +325,7 @@ for fname in glob.glob(filepath + "/" + "*.xml"):
 		width1 = ((width/10)*dpi_val/25.4)
 		height = int(coord.get('HEIGHT'))
 		height1 = ((height/10)*dpi_val/25.4)
-		fill_color = (200, 100, 0, 127)
+		fill_color = (8, 186, 58, 70)
 		outline_width = 0
 		draw.rectangle([a, b, a + width1, b + height1], fill=fill_color, width=outline_width)
 	output = margin + "margin" + "_" + splitname + "_" + "light" + ".jpg"
