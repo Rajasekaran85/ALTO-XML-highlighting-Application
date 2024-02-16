@@ -1,6 +1,6 @@
 # Project Title
 
-ALTO XML Highlighting Application
+ALTO XML Coordinates Highlighting Application
 
 ## Description
 
