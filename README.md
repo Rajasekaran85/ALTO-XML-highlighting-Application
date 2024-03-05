@@ -28,7 +28,7 @@ ALTO XML Coordinates Highlighting Application
 
 * Run the program
 * Tool will ask to enter the Input file path of the input XML & JPEG file path
-* Tool executes the XML files and creates the "Highlighted" folder. Inside the highlighted folder, the highlighted JPEGs will be placed in the respective folders "Word, Line, Block, Image, Margin, Printspace.
+* Tool executes the XML files and creates the "Highlighted" folder. Inside the highlighted folder, the highlighted JPEGs will be placed in the respective folders "Word, Line, Block, Image, Margin, Printspace".
 
 ## Version History
 
