@@ -1,4 +1,4 @@
-# Project Title
+# Application Title
 
 ALTO XML Coordinates Highlighting Application
 
