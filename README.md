@@ -11,7 +11,7 @@ ALTO XML Coordinates Highlighting Application
 * JPEG & XML filename should be same
 * Coordinated handled "mm10", "inch1200", "pixel" 
 * **Portions handled:** Word, Line, Block, Image, Margin, Printspace
-* * Example
+* _Example_
 <p><img src="https://github.com/Rajasekaran85/ALTO-XML-highlighting-Application/blob/main/example.png"/></p>
 
 ## Getting Started
