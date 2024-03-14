@@ -18,7 +18,7 @@ ALTO XML Coordinates Highlighting Application
 
 ### Dependencies 
 
-* Windows 7
+* Windows 7 or above
 
 ### Installing
 
